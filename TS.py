@@ -13,7 +13,7 @@ class config:
     class encoding:
         fmt: str = "ISO-8859-1"
 class sys:
-    endpoint: str = "http://localhost:5000"
+    endpoint = os.getenv("tensorshare_endpoint", "http://localhost:5000")
     maxSize: int = 5242880
 class image:
     def getColorData(fn: str | bytes, cols: int = 3) -> str:
