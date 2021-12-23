@@ -161,6 +161,16 @@ def view(img: str): # sourcery skip: collection-builtin-to-comprehension, remove
     else:
         return flask.send_file("./static/404.png")
 
+@app.route("/<img>/file/", methods=["GET"])
+def img_file(img: str):
+    image = img.split(".")[0]
+    got = db.reference(f"/images/{image}").get()
+    if got:
+        return flask.send_file(io.BytesIO(got["data"].encode(TS.config.encoding.fmt)), mimetype="image/"+str(got["fmt"]))
+    else:
+        return flask.send_file("./static/404.png")
+    
+
 @app.route("/404", methods=["GET"])
 def _404():
     return flask.send_file("./static/404.png")

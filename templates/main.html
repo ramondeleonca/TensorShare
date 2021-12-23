@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script>const r={name:"{{name}}",fmt:"{{fmt}}",uploadedBy:"{{uploadedBy}}",iat:"{{iat}}",size:"{{size}}",colData:"{{colData}}",dimen:"{{dimen}}",exif:JSON.parse("{{exif}}")};</script>
     <style id="ds"></style>
-    <meta name="twitter:card" content="TensorShare - Image {{name}}" />
+    <meta name="twitter:card" content="TensorShare - {{name}}.{{fmt}}" />
     <meta name="twitter:site" content="{{endpoint}}" />
     <meta name="twitter:creator" content="@TensorSpark" />
-    <meta name="twitter:image" content="{{endpoint}}/{{name}}.{{fmt}}" />
+    <meta name="twitter:image" content="{{endpoint}}/{{name}}.{{fmt}}/file" />
     <meta name="twitter:description" content="TensorShare - A private image sharing service" />
     <meta property="og:site_name" content="TensorShare" />
     <meta property="og:url" content="{{endpoint}}" />
-    <meta property="og:title" content="TensorShare - Image {{name}}" />
+    <meta property="og:title" content="TensorShare - {{name}}.{{fmt}}" />
     <meta property="og:description" content="TensorShare - A private image sharing service" />
     <meta name="description" content="TensorShare - A private image sharing service">
     <meta name="canonical" content="{{endpoint}}">
@@ -21,7 +21,7 @@
     <meta name="author" content="TensorSpark" />
     <meta name="copyright" content="TensorSpark, 2021" />
     <meta property="og:type" content="website" />
-    <meta name="og:image" itemprop="image" content="{{endpoint}}/{{name}}.{{fmt}}" />
+    <meta name="og:image" itemprop="image" content="{{endpoint}}/{{name}}.{{fmt}}/file" />
     <meta name="revisit-after" content="1 days">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
@@ -29,7 +29,7 @@
     <script src="{{url_for('static', filename='main.js')}}"></script>
     <link rel="stylesheet" href="{{url_for('static', filename='Montserrat.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
-    <title>TensorShare - Image {{name}}</title>
+    <title>TensorShare - {{name}}.{{fmt}}</title>
 </head>
 <body>
     <div class="bgo"></div>
