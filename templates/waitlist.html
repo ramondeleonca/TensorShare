@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TensorShare - Waitlist</title>
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
+    <script>const RD="{{url_for('waitlist_thanks')}}";const EP="{{endpoint}}";</script>
+    <script src="{{url_for('static', filename='imageindex.js')}}"></script>
+    <script src="{{url_for('static', filename='waitlist.js')}}"></script>
+    <link rel="stylesheet" href="{{url_for('static', filename='Montserrat.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='waitlist.css')}}">
+</head>
+<body>
+    <div class="overlays">
+        <div class="text"></div>
+    </div>
+    <section>
+        <div class="image-container">
+            <div class="overlay"></div>
+            <div class="image-1"></div>
+            <div class="image-2"></div>
+        </div>
+        <main>
+            <div class="container">
+                <div class="fc">
+                    <h1>Join the waitlist</h1>
+                    <form>
+                        <div>
+                            <label style="transform: translate(5px, 35px);" for="name">Full name</label>
+                            <input type="text" name="name" id="name" required>
+                        </div>
+                        <div>
+                            <label style="transform: translate(5px, 35px);" for="email">Email</label>
+                            <input type="email" name="email" id="email" required>
+                        </div>
+                        <!-- <div>
+                            <label for="demo">Demo file <small>(not required)</small></label>
+                            <div class="choose-file">
+                                <div class="contents"><p><i class="material-icons-outlined">file_upload</i>&nbsp;<i class="fn">Choose file</i></div>
+                                <input type="file" accept="image/*" name="demo" id="demo">
+                            </div>
+                        </div> -->
+                        <button class="submit" type="submit">Join!</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </section>
+</body>
+</html>

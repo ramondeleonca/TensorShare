@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='unsubscribe.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='Montserrat.css')}}">
+    <script src="{{url_for('static', filename='imageindex.js')}}"></script>
+    <script src="{{url_for('static', filename='unsubscribe.js')}}"></script>
+    <title>TensorShare - Unsubscribe</title>
+</head>
+<body>
+    <div class="overlays">
+        <div class="text"></div>
+    </div>
+    <section>
+        <div class="image-container">
+            <div class="overlay"></div>
+            <div class="image-1"></div>
+            <div class="image-2"></div>
+        </div>
+
+        <main>
+            <div class="container">
+                <div>
+                    <h1>Do you really wanna go, {{name}}? 😢</h1>
+                    <div>
+                        <button class="yes">Yes</button>
+                        <button class="no">No!</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+    </section>
+</body>
+</html>

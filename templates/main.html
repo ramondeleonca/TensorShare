@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>const r={name:"{{name}}",fmt:"{{fmt}}",uploadedBy:"{{uploadedBy}}",iat:"{{iat}}",size:"{{size}}",colData:"{{colData}}",dimen:"{{dimen}}",exif:JSON.parse("{{exif}}")};</script>
+    <style id="ds"></style>
+    <meta name="twitter:card" content="TensorShare - Image {{name}}" />
+    <meta name="twitter:site" content="{{endpoint}}" />
+    <meta name="twitter:creator" content="@TensorSpark" />
+    <meta name="twitter:image" content="{{endpoint}}/{{name}}.{{fmt}}" />
+    <meta name="twitter:description" content="TensorShare - A private image sharing service" />
+    <meta property="og:site_name" content="TensorShare" />
+    <meta property="og:url" content="{{endpoint}}" />
+    <meta property="og:title" content="TensorShare - Image {{name}}" />
+    <meta property="og:description" content="TensorShare - A private image sharing service" />
+    <meta name="description" content="TensorShare - A private image sharing service">
+    <meta name="canonical" content="{{endpoint}}">
+    <meta name="robots" content="Disallow: *">
+    <meta name="author" content="TensorSpark" />
+    <meta name="copyright" content="TensorSpark, 2021" />
+    <meta property="og:type" content="website" />
+    <meta name="og:image" itemprop="image" content="{{endpoint}}/{{name}}.{{fmt}}" />
+    <meta name="revisit-after" content="1 days">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
+    <script src="{{url_for('static', filename='main.js')}}"></script>
+    <link rel="stylesheet" href="{{url_for('static', filename='Montserrat.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
+    <title>TensorShare - Image {{name}}</title>
+</head>
+<body>
+    <div class="bgo"></div>
+    <div class="bg"></div>
+    <section class="main">
+        <div class="img-c-o">
+            <div class="img-c">
+                <div class="img-d"></div>
+                <img class="img" src="data:image/{{fmt}};base64,{{data}}" alt="Image {{name}}">
+                <div class="inf">
+                    <h1>{{nameU}}.{{fmtU}}</h1>
+                    <h2>Uploaded by {{uploadedBy}}</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="wrapper">
+        <section class="info">
+            <h1>Image information</h1>
+            <div class="container">
+                <div class="exif">
+                    <ul>
+                        <li id="model"><i class="material-icons">camera_alt</i>&nbsp;<p></p></li>
+                        <li id="software"><i class="material-icons">laptop</i>&nbsp;<p></p></li>
+                        <li id="date"><i class="material-icons">today</i>&nbsp;<p></p></li>
+                        <li id="maker"><i class="material-icons">business</i>&nbsp;<p></p></li>
+                        <li id="iat"><i class="material-icons">schedule</i>&nbsp;<p></p></li>
+                    </ul>
+                </div>
+                <div class="side-right">
+                    <img class="inf-img" src="data:image/{{fmt}};base64,{{data}}" alt="Image {{name}}">
+                    <div class="inf">
+                        <h1>{{nameU}}.{{fmtU}}</h1>
+                        <h2>Uploaded by {{uploadedBy}}</h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="signup">
+            <div class="container">
+                <h1>Interested in an account?</h1>
+                <a class="su-button" href="{{url_for('.waitlist',utm_from='image')}}">Click here to join the waitlist</a>
+            </div>
+        </section>
+        <section class="foot">
+            <div class="container">
+                <h1>TensorShare</h1>
+                <h2>A service provided by <a href="https://twitter.com/TensorSpark" target="_blank">TensorSpark</a> and the <a href="https://discord.gg/A7tHSexKWZ" target="_blank">NULL</a> organization.</h2>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

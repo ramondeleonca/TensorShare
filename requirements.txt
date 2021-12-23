@@ -1,0 +1,7 @@
+colorthief
+firebase_admin
+flask
+flask-cors
+Pillow
+gunicorn
+yagmail

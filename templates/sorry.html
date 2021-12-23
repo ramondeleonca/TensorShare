@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="{{url_for('static', filename='imageindex.js')}}"></script>
+    <script src="{{url_for('static', filename='sorry.js')}}"></script>
+    <link rel="stylesheet" href="{{url_for('static', filename='sorry.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='Montserrat.css')}}">
+    <title>TensorShare - We're sorry to see you go.</title>
+</head>
+<body>
+    <div class="overlays">
+        <div class="text"></div>
+    </div>
+    <section>
+        <div class="image-container">
+            <div class="overlay"></div>
+            <div class="image-1"></div>
+            <div class="image-2"></div>
+        </div>
+        <main>
+            <div>
+                <h1>Goodbye, {{name}}.</h1>
+                <h2>We're sorry to see you go. 😭</h2>
+            </div>
+            <h3>Did you make a mistake? <a href="{{url_for('waitlist', utm_from='unsubscribe')}}">You can fix it here!</a></h3>
+        </main>
+    </section>
+</body>
+</html>
