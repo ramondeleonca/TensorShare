@@ -20,13 +20,6 @@ def get_tokens():
 
 @app.route("/waitlist", methods=["GET"])
 def waitlist():
-    otst = str(uuid.uuid4())
-    db.reference("/otst").update({
-        otst: {
-            "used": "false",
-            "iat": str(datetime.datetime.now())
-        }
-    })
     return render_template("waitlist.html", endpoint=TS.sys.endpoint)
 
 @app.route("/waitlist/add_user", methods=["PUT"])
@@ -148,7 +141,7 @@ def view(img: str): # sourcery skip: collection-builtin-to-comprehension, remove
                 data=b64im,
                 fmt=got["fmt"],
                 fmtU=got["fmt"].upper(),
-                uploadedBy=got["uploadedBy"],
+                uploadedBy=got["uploadedBy"]["name"],
                 iat=str(datetime.datetime.now()) if "iat" not in got else got["iat"],
                 size="0" if "size" not in got else got["size"],
                 colData="0,0,0;0,0,0;0,0,0;0,0,0;:0,0,0" if "colData" not in got else got["colData"],
@@ -169,7 +162,10 @@ def img_file(img: str):
         return flask.send_file(io.BytesIO(got["data"].encode(TS.config.encoding.fmt)), mimetype="image/"+str(got["fmt"]))
     else:
         return flask.send_file("./static/404.png")
-    
+
+@app.route("/<img>/data/") 
+def (img: str):
+    return json.dumps(db.reference(f"/images/{image}").get())
 
 @app.route("/404", methods=["GET"])
 def _404():
