@@ -164,7 +164,7 @@ def img_file(img: str):
         return flask.send_file("./static/404.png")
 
 @app.route("/<img>/data/") 
-def (img: str):
+def image_data(img: str):
     return json.dumps(db.reference(f"/images/{image}").get())
 
 @app.route("/404", methods=["GET"])
