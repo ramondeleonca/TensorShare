@@ -165,7 +165,7 @@ def img_file(img: str):
 
 @app.route("/<img>/data/") 
 def image_data(img: str):
-    return json.dumps(db.reference(f"/images/{image}").get())
+    return json.dumps(db.reference(f"/images/{img}").get())
 
 @app.route("/404", methods=["GET"])
 def _404():
