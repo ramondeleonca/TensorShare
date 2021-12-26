@@ -1,12 +1,15 @@
 import io
+from logging import NullHandler
 import TS
+import time
 import uuid
 import json
 import flask
 import base64
 import imghdr
-import datetime
 import yagmail
+import datetime
+import threading
 import firebase_admin
 from flask_cors import CORS
 from firebase_admin import db
@@ -15,6 +18,7 @@ firebase_admin.initialize_app(firebase_admin.credentials.Certificate("./auth.jso
 app = flask.Flask(__name__)
 mac = yagmail.SMTP(user=TS.email.auth.mail, password=TS.email.auth.pwd)
 CORS(app, resources={"/*": {"origins": "*"}})
+dbref = db.reference().get()
 def get_tokens():
     return db.reference("/tokens").get()
 
@@ -52,6 +56,7 @@ def waitlist_remove_user():
             data = db.reference("/waitlist/emails/"+TS.email.getFormated(request.args.get("email"))).get()
             db.reference("/waitlist/emails/"+TS.email.getFormated(request.args.get("email"))).delete()
             return json.dumps({"success": True, "name": data["name"], "email": data["email"]})
+        return json.dumps({"error": "UTK doesn't match", "success": False, "code": 403})
     return json.dumps({"error": "Email not in database", "success": False, "code": 404})
 
 @app.route("/waitlist/unsubscribe/", methods=["GET"])
@@ -76,7 +81,7 @@ def waitlist_sorry():
 
 @app.route("/waitlist/thanks/image", methods=["GET"])
 def waitlist_thanks_image():
-    return flask.send_file("./static/thanks.png")
+    return flask.send_file("./static/images/thanks.png")
 
 @app.route("/post/image/", methods=["GET", "POST"])
 def post_image():  # sourcery skip: simplify-fstring-formatting
@@ -114,10 +119,11 @@ def post_image():  # sourcery skip: simplify-fstring-formatting
             ub = "an Anonymous user"
 
         if data:
-            finalData = TS.image.getData(data, ub, uid)
+            finalData = TS.image.getData(data, get_tokens()[request.args.get("token")]["id"], ub, uid)
         else:
             return json.dumps({"error": "Invalid data URL or body (data URL must be in base64 or body must be in binary)."})
         db.reference(f"/images/{uid}").set(finalData)
+        db.reference("/tokens/"+request.args.get("token")+"/uploads").update({len(db.reference("/tokens/"+request.args.get("token")+"/uploads").get()): uid})
         return json.dumps({"success": True, "url": f"{TS.sys.endpoint}/{uid}.{fmt}"})
 
     else:
@@ -152,7 +158,7 @@ def view(img: str): # sourcery skip: collection-builtin-to-comprehension, remove
         else:
             return flask.send_file(io.BytesIO(got["data"].encode(TS.config.encoding.fmt)), mimetype="image/"+str(got["fmt"]))
     else:
-        return flask.send_file("./static/404.png")
+        return flask.send_file("./static/images/404.png")
 
 @app.route("/<img>/file/", methods=["GET"])
 def img_file(img: str):
@@ -161,19 +167,28 @@ def img_file(img: str):
     if got:
         return flask.send_file(io.BytesIO(got["data"].encode(TS.config.encoding.fmt)), mimetype="image/"+str(got["fmt"]))
     else:
-        return flask.send_file("./static/404.png")
+        return flask.send_file("./static/images/404.png")
 
-@app.route("/<img>/data/") 
-def image_data(img: str):
-    return json.dumps(db.reference(f"/images/{img}").get())
+@app.route("/<img>/data/", methods=["GET"])
+def img_data(img: str):
+    image = img.split(".")[0]
+    got = db.reference(f"/images/{image}").get()
+    return got if got and "b64" in got else json.dumps({"data": None, "fmt": None, "uploadedBy": { "name": None, "id": 0000000000000000 }, "iat": str(datetime.datetime.now()), "size": 0, "b64": None, "colData": "0,0,0;0,0,0;0,0,0;0,0,0;:0,0,0", "dimen": "0,0", "exif": {}})
 
 @app.route("/404", methods=["GET"])
 def _404():
-    return flask.send_file("./static/404.png")
+    return flask.send_file("./static/images/404.png")
 
 @app.route("/favicon.ico/", methods=["GET"])
 def icon():
     return flask.send_file("favicon.ico")
 
+def getDBRefLoop():
+    global dbref
+    while True:
+        time.sleep(60*5)
+        dbref = db.reference().get()
+
 if __name__ == '__main__':
+    threading.Thread(target=getDBRefLoop, daemon=True).start()
     app.run()
