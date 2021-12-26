@@ -1,5 +1,4 @@
 import io
-from logging import NullHandler
 import TS
 import time
 import uuid
@@ -9,6 +8,7 @@ import base64
 import imghdr
 import yagmail
 import datetime
+import requests
 import threading
 import firebase_admin
 from flask_cors import CORS
@@ -100,6 +100,8 @@ def post_image():  # sourcery skip: simplify-fstring-formatting
             data = base64.b64decode(str(request.data).split(";base64,", "")[-1].replace(" ", "+"))
         except:
             return json.dumps({"error": "Couldn't decode base64 string"})
+    elif request.args.get("url", None):
+        data = requests.get(request.args.get("url")).content
     else:
         data = None
 
@@ -173,7 +175,12 @@ def img_file(img: str):
 def img_data(img: str):
     image = img.split(".")[0]
     got = db.reference(f"/images/{image}").get()
-    return got if got and "b64" in got else json.dumps({"data": None, "fmt": None, "uploadedBy": { "name": None, "id": 0000000000000000 }, "iat": str(datetime.datetime.now()), "size": 0, "b64": None, "colData": "0,0,0;0,0,0;0,0,0;0,0,0;:0,0,0", "dimen": "0,0", "exif": {}})
+    dat = request.args.get("data").lower()
+    if dat == "b64" or dat == "base64":
+        got["data"] = None
+    elif dat == "bin" or dat == "binary" or dat == "unicode" or dat == TS.config.encoding.fmt:
+        got["base64"] = None
+    return got if got and "b64" in got else json.dumps({"data": None, "fmt": None, "uploadedBy": {"name": None, "id": 0000000000000000}, "iat": str(datetime.datetime.now()), "size": 0, "b64": None, "colData": "0,0,0;0,0,0;0,0,0;0,0,0;:0,0,0", "dimen": "0,0", "exif": {}})
 
 @app.route("/404", methods=["GET"])
 def _404():
